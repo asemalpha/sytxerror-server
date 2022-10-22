@@ -18,6 +18,26 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Name is required."],
     },
+    username: {
+      type: String,
+      unique: true,
+      required: true,
+      min: 4,
+      max: 20,
+    },
+    role: {
+      type: [],
+      required: true,
+    },
+    jobtitle: {
+      type: String,
+    },
+    location: {
+      type: String,
+    },
+    company: {
+      type: String,
+    },
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`
@@ -25,6 +45,7 @@ const userSchema = new Schema(
   }
 );
 
-const User = model("User", userSchema);
+const userCollectionName = "User";
+const User = model(userCollectionName, userSchema);
 
-module.exports = User;
+module.exports = { userCollectionName, User };
