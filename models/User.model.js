@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, default: mongoose } = require("mongoose");
 
 // TODO: Please make sure you edit the User model to whatever makes sense in this case
 const userSchema = new Schema(
@@ -38,6 +38,19 @@ const userSchema = new Schema(
     company: {
       type: String,
     },
+    jobsPosted: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "job",
+      },
+    ],
+    servicePosted: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "service",
+      },
+    ],
+    profilePic: String,
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`
