@@ -41,13 +41,13 @@ const userSchema = new Schema(
     jobsPosted: [
       {
         type: mongoose.Types.ObjectId,
-        ref: "job",
+        ref: "Job",
       },
     ],
     servicePosted: [
       {
         type: mongoose.Types.ObjectId,
-        ref: "service",
+        ref: "Service",
       },
     ],
     profilePic: String,
