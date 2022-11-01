@@ -25,31 +25,13 @@ const userSchema = new Schema(
       min: 4,
       max: 20,
     },
-    role: {
-      type: [],
-      required: true,
-    },
-    jobtitle: {
-      type: String,
-    },
     location: {
       type: String,
     },
     company: {
       type: String,
     },
-    jobsPosted: [
-      {
-        type: mongoose.Types.ObjectId,
-        ref: "Job",
-      },
-    ],
-    servicePosted: [
-      {
-        type: mongoose.Types.ObjectId,
-        ref: "Service",
-      },
-    ],
+
     profilePic: String,
   },
   {
