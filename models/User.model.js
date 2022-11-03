@@ -3,36 +3,41 @@ const { Schema, model, default: mongoose } = require("mongoose");
 // TODO: Please make sure you edit the User model to whatever makes sense in this case
 const userSchema = new Schema(
   {
-    email: {
+    companyName: {
       type: String,
-      required: [true, "Email is required."],
-      unique: true,
-      lowercase: true,
       trim: true,
     },
-    password: {
+    email: {
       type: String,
-      required: [true, "Password is required."],
-    },
-    name: {
-      type: String,
-      required: [true, "Name is required."],
-    },
-    username: {
-      type: String,
-      unique: true,
       required: true,
-      min: 4,
-      max: 20,
+      lowercase: true,
+      trim: true,
+      unique: true,
+    },
+    passwordHashAndSalt: {
+      type: String,
+      required: true,
+    },
+    logo: {
+      type: String,
+      default:
+        "https://res.cloudinary.com/dlfxinw9v/image/upload/v1598346625/default-logo-vanilla-jobs_jdt2uq.png",
     },
     location: {
       type: String,
     },
-    company: {
+    foundedDate: {
       type: String,
     },
-
-    profilePic: String,
+    websiteUrl: {
+      type: String,
+    },
+    sizeInEmployees: {
+      type: String,
+    },
+    summary: {
+      type: String,
+    },
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

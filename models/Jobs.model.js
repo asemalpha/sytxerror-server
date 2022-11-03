@@ -2,25 +2,79 @@ const { Schema, model } = require("mongoose");
 
 const jobSchema = new Schema(
   {
+    creator: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
     title: {
       type: String,
       required: true,
-      min: 3,
-    },
-    company: {
-      type: String,
-      required: true,
-      min: 3,
     },
     location: {
       type: String,
       required: true,
     },
-    postdate: new Date(),
-    startdate: new Date(),
-    jobaddress: {
+
+    description: {
       type: String,
       required: true,
+    },
+
+    tasks: {
+      type: [],
+      minlength: 1,
+      required: true,
+    },
+
+    requirements: {
+      type: [],
+      required: true,
+    },
+
+    seniority: {
+      type: String,
+      required: true,
+      enum: ["Junior", "Mid", "Senior"],
+    },
+
+    tech: [
+      {
+        type: String,
+        required: true,
+        enum: [
+          "HTML",
+          "CSS",
+          "NodeJS",
+          "React",
+          "VueJS",
+          "AngularJS",
+          "Python",
+          "Swift",
+          "MongoDB",
+          "Java",
+          "SQL",
+          "GraphQL",
+          "AWS",
+          "Git",
+          "Flask",
+          "Ruby",
+          "Express",
+          "Javascript",
+          "Bootstrap",
+          "SASS",
+          "PHP",
+          ".NET",
+          "C#",
+          "C++",
+        ],
+      },
+    ],
+
+    category: {
+      type: String,
+      required: true,
+      enum: ["Frontend", "Backend", "Fullstack"],
     },
   },
   {
