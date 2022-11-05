@@ -57,7 +57,7 @@ userRouter.get(":id", async (req, res, next) => {
   }
 });
 
-companyRouter.patch("/:id", upload.single("logo"), (req, res, next) => {
+userRouter.patch("/:id", upload.single("logo"), (req, res, next) => {
   const id = req.params.id;
   let url;
   if (req.file) {
