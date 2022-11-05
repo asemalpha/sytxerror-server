@@ -1,4 +1,6 @@
 const { Schema, model } = require("mongoose");
+const { userCollectionName } = require("./User.model");
+const { applicationCollectionName } = require("./Application.model");
 
 const jobSchema = new Schema(
   {

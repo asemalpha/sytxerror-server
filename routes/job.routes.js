@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const jobRouter = new Router();
 
-const JobPost = require("../models/Jobs.model");
+const JobPost = require("../models/Jobs.model").default;
 
 const isAuthenticated = require("../middleware/jwt.middleware");
 
@@ -18,7 +18,7 @@ jobRouter.post("/", (req, res, next) => {
   } = req.body;
 
   JobPost.create({
-    creator: req.user._id,
+    name: req.user._id,
     title,
     location,
     description,
@@ -40,7 +40,7 @@ jobRouter.get("/all", async (req, res, next) => {
   try {
     const jobPosts = await JobPost.find().poulate("creator");
 
-    if (jobposts) {
+    if (jobPosts) {
       res.json({ jobPosts });
     } else {
       next();
