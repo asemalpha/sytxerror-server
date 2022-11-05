@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const jobRouter = new Router();
 
-const JobPost = require("../models/Jobs.model").default;
+const JobPost = require("../models/Jobs.model");
 
 const isAuthenticated = require("../middleware/jwt.middleware");
 
