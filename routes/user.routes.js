@@ -6,6 +6,7 @@ const User = require("../models/User.model");
 const multer = require("multer");
 const cloudinary = require("cloudinary");
 const multerStorage = require("multer-storage-cloudinary");
+const { isAuthenticated } = require("../middleware/jwt.middleware");
 const storage = new multerStorage.CloudinaryStorage({
   cloudinary: cloudinary.v2,
 });
@@ -19,7 +20,7 @@ userRouter.get("/me", (req, res) => {
 
 userRouter.get("/fullList", async (req, res, next) => {
   try {
-    const allUsers = await User.find();
+    const allUsers = await User.User.find();
     if (allUsers) {
       res.json({ allUsers });
     } else {
@@ -98,13 +99,31 @@ userRouter.patch("/:id", upload.single("logo"), (req, res, next) => {
     };
   }
 
-  User.findOneAndUpdate({ _id: id }, updatedObject, { new: true })
+  User.User.findOneAndUpdate({ _id: id }, updatedObject, { new: true })
     .then((post) => {
       res.json({ post });
     })
     .catch((error) => {
       next(error);
     });
+});
+userRouter.post("/signup", (req, res, next) => {
+  const { companyName, email, password } = req.body;
+  /*console.log(companyName);
+  console.log(email);
+  console.log(password);*/
+  User.User.create({
+    companyName,
+    email,
+    passwordHashAndSalt: password,
+  })
+    .then((post) => {
+      return res.json({ post });
+    })
+    .catch((err) => {
+      next(err);
+    });
+  return res.json({ success: "done" });
 });
 
 module.exports = userRouter;

@@ -35,10 +35,11 @@ jobRouter.post("/", (req, res, next) => {
       next(err);
     });
 });
+console.log(JobPost.Job.find);
 
 jobRouter.get("/all", async (req, res, next) => {
   try {
-    const jobPosts = await JobPost.find().poulate("creator");
+    const jobPosts = await JobPost.Job.find();
 
     if (jobPosts) {
       res.json({ jobPosts });
@@ -50,7 +51,7 @@ jobRouter.get("/all", async (req, res, next) => {
   }
 });
 
-jobRouter.patch("/:id", isAuthenticated, (req, res, next) => {
+jobRouter.patch("/:id", (req, res, next) => {
   const id = req.params.id;
 
   const {
@@ -85,7 +86,7 @@ jobRouter.patch("/:id", isAuthenticated, (req, res, next) => {
     });
 });
 
-jobRouter.delete("/:id", isAuthenticated, (req, res, next) => {
+jobRouter.delete("/:id", (req, res, next) => {
   const id = req.params.id;
 
   JobPost.findOneAndDelete({ _id: id, creator: req.user._id })
