@@ -99,7 +99,7 @@ userRouter.patch("/:id", upload.single("logo"), (req, res, next) => {
     };
   }
 
-  User.User.findOneAndUpdate({ _id: id }, updatedObject, { new: true })
+  User.findOneAndUpdate({ _id: id }, updatedObject, { new: true })
     .then((post) => {
       res.json({ post });
     })
@@ -109,13 +109,11 @@ userRouter.patch("/:id", upload.single("logo"), (req, res, next) => {
 });
 userRouter.post("/signup", (req, res, next) => {
   const { companyName, email, password } = req.body;
-  /*console.log(companyName);
-  console.log(email);
-  console.log(password);*/
-  User.User.create({
+
+  User.create({
     companyName,
     email,
-    passwordHashAndSalt: password,
+    password,
   })
     .then((post) => {
       return res.json({ post });

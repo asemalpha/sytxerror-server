@@ -86,6 +86,5 @@ const jobSchema = new Schema(
   }
 );
 
-const jobCollectionName = "Job";
-const Job = model(jobCollectionName, jobSchema);
-module.exports = { jobCollectionName, Job };
+const Job = model("Job", jobSchema);
+module.exports = Job;

@@ -14,7 +14,7 @@ const userSchema = new Schema(
       trim: true,
       unique: true,
     },
-    passwordHashAndSalt: {
+    password: {
       type: String,
       required: true,
     },
@@ -45,7 +45,6 @@ const userSchema = new Schema(
   }
 );
 
-const userCollectionName = "User";
-const User = model(userCollectionName, userSchema);
+const User = model("User", userSchema);
 
-module.exports = { userCollectionName, User };
+module.exports = User;

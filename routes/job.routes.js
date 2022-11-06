@@ -35,7 +35,6 @@ jobRouter.post("/", (req, res, next) => {
       next(err);
     });
 });
-console.log(JobPost.Job.find);
 
 jobRouter.get("/all", async (req, res, next) => {
   try {

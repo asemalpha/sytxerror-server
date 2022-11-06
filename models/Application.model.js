@@ -21,16 +21,13 @@ const applicationSchema = new Schema(
     resumeUpload: {
       type: String,
     },
-    linkedinUrl: {
+    linkdIn: {
       type: String,
     },
     githubUrl: {
       type: String,
     },
-    photo: {
-      type: String,
-    },
-    jobId: {
+    jobID: {
       type: String,
     },
   },
@@ -40,7 +37,6 @@ const applicationSchema = new Schema(
   }
 );
 
-const applicationCollectionName = "Application";
-const Application = model(applicationCollectionName, applicationSchema);
+const Application = model("Application", applicationSchema);
 
-module.exports = { applicationCollectionName, Application };
+module.exports = Application;
