@@ -1,11 +1,12 @@
 const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose");
 const { userCollectionName } = require("./User.model");
 const { applicationCollectionName } = require("./Application.model");
 
 const jobSchema = new Schema(
   {
     creator: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Types.ObjectId,
       required: true,
       ref: "User",
     },

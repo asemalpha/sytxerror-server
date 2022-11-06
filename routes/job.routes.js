@@ -85,6 +85,15 @@ jobRouter.patch("/:id", isAuthenticated, (req, res, next) => {
     });
 });
 
+jobRouter.delete("/:id", isAuthenticated, (req, res, next) => {
+  const id = req.params.id;
+
+  JobPost.findOneAndDelete({ _id: id, creator: req.user._id })
+    .then(() => res.json({}))
+    .catch((err) => {
+      next(err);
+    });
+});
 jobRouter.get("/creator/:id", async (req, res, next) => {
   const id = req.params.id;
 

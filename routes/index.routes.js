@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const applicationRouter = require("./application.routes");
-const isAuthenticated = require("./auth.routes");
+const authRoutes = require("./auth.routes");
 const jobRouter = require("./job.routes");
 const userRouter = require("./user.routes");
 
@@ -10,7 +10,7 @@ router.get("/", (req, res, next) => {
 });
 
 router.use("/application", applicationRouter);
-router.use("/auth", isAuthenticated);
+router.use("/auth", authRoutes);
 router.use("/user", userRouter);
 router.use("/job", jobRouter);
 
