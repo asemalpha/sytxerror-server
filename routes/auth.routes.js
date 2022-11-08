@@ -15,6 +15,7 @@ const User = require("../models/User.model");
 const {
   isAuthenticated,
   getTokenFromHeaders,
+  isLoggedIn,
 } = require("../middleware/jwt.middleware.js");
 
 // How many rounds should bcrypt run the salt (default - 10 rounds)
@@ -124,20 +125,9 @@ router.post("/login", async (req, res, next) => {
     })
     .catch((err) => next(err)); // In this case, we send error handling to the error handling middleware.
 });
-const verfiyToken = (req, res, next) => {
-  const authorization = req.headers.authorization;
-  if (authorization === undefined) {
-    res.status(400).json({ message: "verification failed" });
-  }
-  const token = authorization.split(" ").pop();
 
-  jwt.verify(token, process.env.TOKEN_SECRET, (err) => {
-    if (err) return res.status(400).json({ message: "verification failed" });
-    next();
-  });
-};
 // GET  /auth/verify  -  Used to verify JWT stored on the client
-router.get("/verify", verfiyToken, (req, res, next) => {
+router.get("/verify", isAuthenticated, (req, res, next) => {
   // If JWT token is valid the payload gets decoded by the
   // isAuthenticated middleware and is made available on `req.payload`
 

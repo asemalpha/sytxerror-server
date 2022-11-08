@@ -24,8 +24,40 @@ function getTokenFromHeaders(req) {
   return null;
 }
 
+const JWT = require("jsonwebtoken");
+const User = require("../models/User.model");
+
+function isLoggedIn(req, res, next) {
+  if (!req.headers.authorization) {
+    return goHomeYoureDrunk(res);
+  }
+
+  const [bearer, token] = req.headers.authorization.split(" ");
+
+  if (bearer !== "Bearer") {
+    return res.status(401).json({ message: "Bye bitch" });
+  }
+
+  const tokenData = JWT.decode(token);
+
+  if (!tokenData) {
+    return res.status(401).json({ message: "Bye bitch" });
+  }
+
+  User.findById(tokenData._id)
+    .then((user) => {
+      req.user = user;
+      next();
+    })
+    .catch((err) => {
+      console.log("err:", err);
+      return res.status(500).json({ message: "Guess I was bitch this time" });
+    });
+}
+
 // Export the middleware so that we can use it to create protected routes
 module.exports = {
   isAuthenticated,
   getTokenFromHeaders,
+  isLoggedIn,
 };

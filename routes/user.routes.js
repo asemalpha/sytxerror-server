@@ -6,14 +6,14 @@ const User = require("../models/User.model");
 const multer = require("multer");
 const cloudinary = require("cloudinary");
 const multerStorage = require("multer-storage-cloudinary");
-const { isAuthenticated } = require("../middleware/jwt.middleware");
+const { isAuthenticated, isLoggedIn } = require("../middleware/jwt.middleware");
 const storage = new multerStorage.CloudinaryStorage({
   cloudinary: cloudinary.v2,
 });
 
 const upload = multer({ storage });
 
-userRouter.get("/me", (req, res) => {
+userRouter.get("/me", isAuthenticated, (req, res) => {
   const user = req.user;
   res.json({ user });
 });
@@ -57,56 +57,22 @@ userRouter.get(":id", async (req, res, next) => {
     next(error);
   }
 });
-
-userRouter.patch("/:id", upload.single("logo"), (req, res, next) => {
-  const id = req.params.id;
-  let url;
-  if (req.file) {
-    url = req.file.path;
-  }
-
-  const {
-    companyName,
-    email,
-    location,
-    foundedDate,
-    websiteUrl,
-    sizeInEmployees,
-    summary,
-  } = req.body;
-
-  let updatedObject;
-  if (url) {
-    updatedObject = {
-      companyName,
-      email,
-      logo: url,
-      location,
-      foundedDate,
-      websiteUrl,
-      sizeInEmployees,
-      summary,
-    };
-  } else {
-    updatedObject = {
-      companyName,
-      email,
-      location,
-      foundedDate,
-      websiteUrl,
-      sizeInEmployees,
-      summary,
-    };
-  }
-
-  User.findOneAndUpdate({ _id: id }, updatedObject, { new: true })
-    .then((post) => {
-      res.json({ post });
+userRouter.post("/profile/edit", isLoggedIn, (req, res, next) => {
+  const { companyName, website, location, summary } = req.body;
+  user._id;
+  User.findByIdAndUpdate(
+    id,
+    { companyName, location, website, summary },
+    { new: true }
+  )
+    .then((updatedUser) => {
+      res.json({ user: updatedUser });
     })
     .catch((error) => {
       next(error);
     });
 });
+
 userRouter.post("/signup", (req, res, next) => {
   const { companyName, email, password } = req.body;
 

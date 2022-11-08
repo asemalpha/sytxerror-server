@@ -3,9 +3,9 @@ const jobRouter = new Router();
 
 const JobPost = require("../models/Jobs.model");
 
-const isAuthenticated = require("../middleware/jwt.middleware");
+const { isAuthenticated } = require("../middleware/jwt.middleware");
 
-jobRouter.post("/", (req, res, next) => {
+jobRouter.post("/create", (req, res, next) => {
   const {
     title,
     location,
