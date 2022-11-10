@@ -31,7 +31,7 @@ userRouter.get("/fullList", async (req, res, next) => {
   }
 });
 
-userRouter.get(":id", async (req, res, next) => {
+userRouter.get("/:id", async (req, res, next) => {
   const id = req.params.id;
 
   try {
@@ -57,12 +57,14 @@ userRouter.get(":id", async (req, res, next) => {
     next(error);
   }
 });
+
 userRouter.post("/profile/edit", isLoggedIn, (req, res, next) => {
-  const { companyName, website, location, summary } = req.body;
-  user._id;
+  const { companyName, websiteUrl, location, summary, name } = req.body;
+  const id = req.user._id;
+
   User.findByIdAndUpdate(
     id,
-    { companyName, location, website, summary },
+    { name, location, websiteUrl, summary },
     { new: true }
   )
     .then((updatedUser) => {

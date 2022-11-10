@@ -3,7 +3,7 @@ const { Schema, model, default: mongoose } = require("mongoose");
 // TODO: Please make sure you edit the User model to whatever makes sense in this case
 const userSchema = new Schema(
   {
-    companyName: {
+    name: {
       type: String,
       trim: true,
     },
