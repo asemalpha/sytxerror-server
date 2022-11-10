@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 const mongoose = require("mongoose");
-const { userCollectionName } = require("./User.model");
-const { applicationCollectionName } = require("./Application.model");
+const User = require("./User.model");
+const Application = require("./Application.model");
 
 const jobSchema = new Schema(
   {
@@ -24,27 +24,16 @@ const jobSchema = new Schema(
       required: true,
     },
 
-    tasks: {
-      type: [],
-      minlength: 1,
-      required: true,
-    },
-
-    requirements: {
-      type: [],
-      required: true,
-    },
-
     seniority: {
       type: String,
       required: true,
-      enum: ["Junior", "Mid", "Senior"],
     },
 
     tech: [
       {
         type: String,
         required: true,
+        default: "CSS",
         enum: [
           "HTML",
           "CSS",
@@ -73,12 +62,6 @@ const jobSchema = new Schema(
         ],
       },
     ],
-
-    category: {
-      type: String,
-      required: true,
-      enum: ["Frontend", "Backend", "Fullstack"],
-    },
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

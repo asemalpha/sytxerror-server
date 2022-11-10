@@ -1,34 +1,25 @@
 const { Router } = require("express");
 const jobRouter = new Router();
 
-const JobPost = require("../models/Jobs.model");
+const Job = require("../models/Jobs.model");
 
-const { isAuthenticated } = require("../middleware/jwt.middleware");
+const { isAuthenticated, isLoggedIn } = require("../middleware/jwt.middleware");
 
-jobRouter.post("/create", isAuthenticated, (req, res, next) => {
-  const {
+jobRouter.post("/create", isLoggedIn, (req, res, next) => {
+  const { title, location, description, seniority, tech } = req.body;
+
+  Job.create({
+    creator: req.user._id,
     title,
     location,
     description,
-    tasks,
-    requirements,
     seniority,
     tech,
-    category,
-  } = req.body;
-
-  JobPost.create({
-    name: req.user._id,
-    title,
-    location,
-    description,
-    tasks,
-    requirements,
-    seniority,
-    tech,
-    category,
   })
     .then((post) => {
+      // returning -> post
+      //  returning -> { post: post }
+
       return res.json({ post });
     })
     .catch((err) => {
@@ -38,7 +29,7 @@ jobRouter.post("/create", isAuthenticated, (req, res, next) => {
 
 jobRouter.get("/all", async (req, res, next) => {
   try {
-    const jobPosts = await JobPost.Job.find();
+    const jobPosts = await Job.Job.find();
 
     if (jobPosts) {
       res.json({ jobPosts });
@@ -50,42 +41,7 @@ jobRouter.get("/all", async (req, res, next) => {
   }
 });
 
-jobRouter.patch("/:id", (req, res, next) => {
-  const id = req.params.id;
-
-  const {
-    title,
-    location,
-    description,
-    tasks,
-    requirements,
-    seniority,
-    tech,
-    category,
-  } = req.body;
-
-  JobPost.findOneAndUpdate(
-    { _id: id, creator: req.user._id },
-    {
-      title,
-      location,
-      description,
-      tasks,
-      requirements,
-      seniority,
-      tech,
-      category,
-    }
-  )
-    .then((post) => {
-      res.json({ post });
-    })
-    .catch((err) => {
-      next(err);
-    });
-});
-
-jobRouter.delete("/:id", (req, res, next) => {
+jobRouter.delete("/:id", isAuthenticated, (req, res, next) => {
   const id = req.params.id;
 
   JobPost.findOneAndDelete({ _id: id, creator: req.user._id })
@@ -94,6 +50,7 @@ jobRouter.delete("/:id", (req, res, next) => {
       next(err);
     });
 });
+
 jobRouter.get("/creator/:id", async (req, res, next) => {
   const id = req.params.id;
 
@@ -108,5 +65,11 @@ jobRouter.get("/creator/:id", async (req, res, next) => {
     next(err);
   }
 });
+
+jobRouter.get("/:jobIdThatUserMustSend", (req, res) =>
+  Job.findById(req.params.jobIdThatUserMustSend).then((job) =>
+    res.json({ job })
+  )
+);
 
 module.exports = jobRouter;

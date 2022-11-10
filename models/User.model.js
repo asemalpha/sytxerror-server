@@ -18,11 +18,7 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    logo: {
-      type: String,
-      default:
-        "https://res.cloudinary.com/dlfxinw9v/image/upload/v1598346625/default-logo-vanilla-jobs_jdt2uq.png",
-    },
+
     location: {
       type: String,
     },
