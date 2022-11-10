@@ -22,7 +22,7 @@ const {
 const saltRounds = 10;
 
 // POST /auth/signup  - Creates a new user in the database
-router.post("/auth/signup", (req, res, next) => {
+router.post("/signup", (req, res, next) => {
   const { email, password, name } = req.body;
 
   // Check if email or password or name are provided as empty strings
@@ -80,7 +80,7 @@ router.post("/auth/signup", (req, res, next) => {
 });
 
 // POST  /auth/login - Verifies email and password and returns a JWT
-router.post("/auth/login", async (req, res, next) => {
+router.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
 
   // Check if email or password are provided as empty string
