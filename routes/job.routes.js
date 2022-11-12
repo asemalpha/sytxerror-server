@@ -10,8 +10,8 @@ jobRouter.get("/", (req, res) => {
 });
 
 jobRouter.get("/all", (req, res) => {
-  const id = req.params._id;
-  Job.find(id).then((job) => {
+  // const id = req.params._id;
+  Job.find().then((job) => {
     if (!job) {
       return res.status(400).json({ errorMessage: "No jobs were found" });
     }
