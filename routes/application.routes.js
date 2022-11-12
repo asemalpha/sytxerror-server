@@ -12,7 +12,7 @@ const applicationRouter = new Router();
 
 const Application = require("../models/Application.model");
 
-applicationRouter.get("/:id", async (req, res, next) => {
+applicationRouter.get("/:id/application", async (req, res, next) => {
   const jobID = req.params.jobID;
   try {
     const application = await Application.find({ jobID });
