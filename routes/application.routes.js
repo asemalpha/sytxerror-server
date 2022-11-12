@@ -13,7 +13,7 @@ const applicationRouter = new Router();
 const Application = require("../models/Application.model");
 
 applicationRouter.get("/:id", async (req, res, next) => {
-  const jobID = req.params.jobIDtry;
+  const jobID = req.params.jobID;
   try {
     const application = await Application.find({ jobID });
     res.json({ applicant: application });
@@ -23,25 +23,13 @@ applicationRouter.get("/:id", async (req, res, next) => {
 });
 
 applicationRouter.post("/submitApplication", async (req, res, next) => {
-  const {
-    applicantName,
-    applicantEmail,
-    applicantLocation,
-    cvUpload,
-    linkdIn,
-    gitHubURL,
-    photo,
-    jobID,
-  } = req.body;
+  const { applicantName, applicantEmail, linkdIn, gitHubURL } = req.body;
   try {
     const application = await Application.create({
       applicantName,
       applicantEmail,
-      applicantLocation,
-      cvUpload,
       linkdIn,
       gitHubURL,
-      photo,
       jobID,
     });
     transporter.sendMail({
@@ -69,11 +57,8 @@ applicationRouter.post("/submitApplication", async (req, res, next) => {
         _id: application._id,
         applicantName: application.applicantName,
         applicantEmail: application.applicantEmail,
-        applicantLocation: application.applicantLocation,
-        cvUpload: application.cvUpload,
         linkdIn: application.linkdIn,
-        gitHubURL: application.gitHubURL,
-        photo: application.photo,
+        gitHubURL: application.githubUrl,
         jobID: application.jobID,
       },
     });

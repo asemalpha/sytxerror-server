@@ -15,19 +15,10 @@ const applicationSchema = new Schema(
     candidateLocation: {
       type: String,
     },
-    motivation: {
-      type: String,
-    },
-    resumeUpload: {
-      type: String,
-    },
     linkdIn: {
       type: String,
     },
     githubUrl: {
-      type: String,
-    },
-    jobID: {
       type: String,
     },
   },

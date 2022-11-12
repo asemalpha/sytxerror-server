@@ -3,7 +3,7 @@ const jobRouter = new Router();
 
 const Job = require("../models/Jobs.model");
 
-const { isAuthenticated, isLoggedIn } = require("../middleware/jwt.middleware");
+const { isLoggedIn } = require("../middleware/jwt.middleware");
 
 jobRouter.post("/create", isLoggedIn, (req, res, next) => {
   const { title, location, description, seniority, tech } = req.body;
@@ -28,8 +28,9 @@ jobRouter.post("/create", isLoggedIn, (req, res, next) => {
 });
 
 jobRouter.get("/all", async (req, res, next) => {
+  const id = req.params._id;
   try {
-    const jobPosts = await Job.Job.find();
+    const jobPosts = await Job.find(id);
 
     if (jobPosts) {
       res.json({ jobPosts });
@@ -41,21 +42,11 @@ jobRouter.get("/all", async (req, res, next) => {
   }
 });
 
-jobRouter.delete("/:id", isAuthenticated, (req, res, next) => {
-  const id = req.params.id;
-
-  JobPost.findOneAndDelete({ _id: id, creator: req.user._id })
-    .then(() => res.json({}))
-    .catch((err) => {
-      next(err);
-    });
-});
-
 jobRouter.get("/creator/:id", async (req, res, next) => {
   const id = req.params.id;
 
   try {
-    const jobPosts = await JobPost.find({ creator: id });
+    const jobPosts = await Job.find({ creator: id });
     if (jobPosts) {
       res.json({ jobPosts });
     } else {

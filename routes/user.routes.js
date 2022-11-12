@@ -42,9 +42,9 @@ userRouter.get("/:id", async (req, res, next) => {
           _id: id,
           companyName: user.companyName,
           email: user.email,
-          logo: user.logo,
+
           location: user.location,
-          foundedDate: user.foundedDate,
+
           webSite: user.webSite,
           size: user.size,
           summary: user.summary,
@@ -59,7 +59,7 @@ userRouter.get("/:id", async (req, res, next) => {
 });
 
 userRouter.post("/profile/edit", isLoggedIn, (req, res, next) => {
-  const { companyName, websiteUrl, location, summary, name } = req.body;
+  const { websiteUrl, location, summary, name } = req.body;
   const id = req.user._id;
 
   User.findByIdAndUpdate(
@@ -74,7 +74,15 @@ userRouter.post("/profile/edit", isLoggedIn, (req, res, next) => {
       next(error);
     });
 });
-
+userRouter.delete("/:id", isLoggedIn, (req, res, next) => {
+  User.findByIdAndDelete(req.user._id)
+    .then(() => {
+      return res.status(200).json({ message: "Your profile is deleted" });
+    })
+    .catch((error) => {
+      next(error);
+    });
+});
 userRouter.post("/signup", (req, res, next) => {
   const { companyName, email, password } = req.body;
 
